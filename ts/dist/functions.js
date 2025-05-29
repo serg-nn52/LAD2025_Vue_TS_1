@@ -8,6 +8,13 @@ sum(2, 4);
 const sayHi = (name) => {
     console.log('Hi ', name);
 };
+const admin = {
+    name: 'Sergey',
+    cb: sayHi,
+    car: {
+        model: 'Audi'
+    }
+};
 //never
 const createError = () => {
     throw new Error('Oooops!');

@@ -1,12 +1,11 @@
-"use strict";
-const boss = {
+export const boss = {
     name: 'Ivan',
     age: '40',
     staff: 100,
     isAdmin: true,
     car: 'Audi'
 };
-const worker = {
+export const worker = {
     name: 'Vasily',
     age: '30',
     staff: 100,
@@ -26,6 +25,7 @@ const bossList = [{
         isAdmin: true,
         car: 'Audi'
     }];
+export default bossList;
 const bossList1 = [{
         name: 'Ivan',
         age: '40',

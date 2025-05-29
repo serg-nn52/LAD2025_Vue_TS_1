@@ -27,3 +27,4 @@ if (typeof d === 'number')
     d.toString();
 const universalVars = 10;
 const headerColor = 'dark';
+const width = 5 + 'px';

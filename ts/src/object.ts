@@ -18,7 +18,7 @@ interface IWorker extends IBoss {
 }
 
 
-const boss: IBoss = {
+export const boss: IBoss = {
     name: 'Ivan',
     age: '40',
     staff: 100,
@@ -26,7 +26,7 @@ const boss: IBoss = {
     car: 'Audi'
 }
 
-const worker: IWorker = {
+export const worker: IWorker = {
     name: 'Vasily',
     age: '30',
     staff: 100,
@@ -42,7 +42,6 @@ boss.rate = 5000;
 
 //const fruits: (string | number | boolean)[] = ['apple', 'banana', 'pineapple', true];
 //const fruits: Array<string | number | boolean> = ['apple', 'banana', 'pineapple', 5, true, null];
-
 const bossList: IBoss[] = [{
     name: 'Ivan',
     age: '40',
@@ -50,6 +49,9 @@ const bossList: IBoss[] = [{
     isAdmin: true,
     car: 'Audi'
 }];
+
+export default bossList;
+
 const bossList1: Array<IBoss> = [{
     name: 'Ivan',
     age: '40',

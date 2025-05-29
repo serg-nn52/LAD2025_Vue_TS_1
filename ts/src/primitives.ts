@@ -48,3 +48,5 @@ const universalVars: TUniversalType = 10;
 type TColorsAppType = 'brand' | 'dark' | 'light';
 
 const headerColor: TColorsAppType = 'dark';
+
+const width: string = 5 + 'px';

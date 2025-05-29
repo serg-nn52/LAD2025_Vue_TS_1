@@ -1,2 +1,11 @@
-"use strict";
-console.log('test');
+import { boss, worker as employ } from './object.js';
+import bossList from './object.js';
+// console.log('test');
+console.log(boss);
+console.log(employ);
+console.log(bossList);
+const bossElement = document.createElement('div');
+bossElement.innerText = boss.name;
+document.body.append(bossElement);
+bossElement.style.fontSize = '32px';
+bossElement.style.color = 'red';
