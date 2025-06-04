@@ -1,85 +1,110 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+  <div class="wrapper">
+    <PageHeader :title="text" />
+    <section class="main-section">
+      <h2>App</h2>
+      <ClickCounter @increment-counter="onIncrement" />
+      <div class="user">
+        <h2>User</h2>
+        <div>Name: {{ user.name }}</div>
+        <div>Age: {{ user.age }}</div>
+        <button @click="increment" class="button">Increment age</button>
+        <button @click="decrement" class="button">Decrement age</button>
+        <div :style="messageStyle" class="message">{{ text }}</div>
+      </div>
+    </section>
+    <PageFooter />
+  </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+import PageHeader from './components/PageHeader.vue';
+import PageFooter from './components/PageFooter.vue';
+import ClickCounter from './components/ClickCounter.vue';
+
+export default defineComponent({
+  components: {
+    PageHeader,
+    PageFooter,
+    ClickCounter,
+  },
+  data() {
+    return {
+      user: {
+        name: 'Sergey',
+        age: 30,
+      },
+      text: '',
+    };
+  },
+  methods: {
+    increment() {
+      this.user.age++;
+    },
+    decrement() {
+      this.user.age--;
+    },
+    onIncrement(value: number) {
+      console.log('increment - counter', value);
+    },
+  },
+  computed: {
+    messageStyle() {
+      return { color: this.user.age < 18 ? 'red' : 'green' };
+    },
+  },
+  watch: {
+    // user: {
+    //   handler(val, oldVal) {
+    //     console.log('user', val);
+    //     console.log('oldUser', oldVal);
+    //   },
+    //   immediate: true,
+    //   deep: true,
+    // },
+    'user.age': {
+      handler(val, oldVal) {
+        if (val < 18) {
+          this.text = 'Доступ запрещен, вы слишком молоды!';
+        } else if (val < 60) {
+          this.text = 'Доступ разрешен, все в порядке!';
+        } else {
+          this.text = 'Вам уже 60!';
+        }
+        // console.log('userAge', val);
+        // console.log('oldUserAge', oldVal);
+      },
+      immediate: true,
+    },
+  },
+});
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
 }
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.main-section {
+  flex-grow: 1;
+  padding: 20px;
+  font-size: 32px;
+  background-color: burlywood;
+  color: black;
 }
-
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
+.button {
+  padding: 10px 5px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+  background-color: blueviolet;
+  margin-right: 15px;
+  cursor: pointer;
 }
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.message {
+  color: green;
 }
 </style>
