@@ -64,7 +64,7 @@ export default defineComponent({
     //   deep: true,
     // },
     'user.age': {
-      handler(val, oldVal) {
+      handler(val) {
         if (val < 18) {
           this.text = 'Доступ запрещен, вы слишком молоды!';
         } else if (val < 60) {

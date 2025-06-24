@@ -26,3 +26,8 @@ export interface IUserBlockEmits {
 // };
 
 // const fruits: TFruits = ['apple', 'banana'];
+
+export interface IInfoBannerProps {
+  text: string;
+  link: string;
+}
