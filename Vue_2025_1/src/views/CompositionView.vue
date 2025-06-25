@@ -5,10 +5,12 @@
       <h2>Composition API</h2>
       <CompositionClickCounter title="Composition counter" />
       <UserBlock
+        v-if="device === 'desktop' || device === 'tablet'"
         @decrement-age="user.age--"
         @increment-age="(val) => incrementAge(val)"
         :user="user"
       />
+      <p v-else>Мобильная версия блока юзеров находится в разработке"</p>
       <p v-if="user.age < 18 || (user.age > 18 && user.age < 50)" class="notification">
         Вам мало лет, доступ закрыт!
       </p>
@@ -26,11 +28,8 @@
       <img src="@/assets/img/galka-11.png" alt="galka" />
       <img :src="picture" alt="galka" />
     </div>
-    <div
-      v-show="isSquareVisible"
-      @click="isDark = !isDark"
-      :class="{ square: true, 'square-dark': isDark }"
-    />
+    <div v-show="isSquareVisible" @click="isDark = !isDark" :class="squareClasses" />
+    <p :style="{ color: isDark ? 'black' : 'red' }">{{ isDark ? 'Black' : 'Red' }}</p>
     <section class="user-section">
       <h2>Список пользователей</h2>
       <ul>
@@ -53,10 +52,12 @@
     <section class="section-form">
       <!-- <input @input="onInput" :value="textValue" type="text" /> -->
       <form @submit.prevent="console.log('Форма отправлена!', textValue)">
-        <input type="text" v-model.trim="textValue" />
+        <input @input="onInput" type="text" v-model.trim="textValue" />
         <button @click.once="console.log('click')" type="submit">Отправить форму</button>
       </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       <h2 class="input-text">{{ textValue }}</h2>
+      <button class="button">Test button</button>
     </section>
     <PageFooter />
   </div>
@@ -65,13 +66,24 @@
 <script setup lang="ts">
 import PageHeader from '@/components/PageHeader.vue';
 import PageFooter from '@/components/PageFooter.vue';
-import { ref } from 'vue';
+import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 import type { IUser } from './types';
 import CompositionClickCounter from '@/components/CompositionClickCounter.vue';
 import UserBlock from '@/components/UserBlock.vue';
 import picture from '@/assets/img/galka-11.png';
 import { userList } from '@/mock/userList';
 import InfoBanner from '@/components/InfoBanner.vue';
+import { useMedia } from '@/composables/useMedia';
+
+const { device } = useMedia();
+
+const squareClasses = computed(() => {
+  return {
+    'square-dark': isDark.value,
+    square: true,
+    'square-all': true,
+  };
+});
 
 const isDark = ref(false);
 
@@ -87,7 +99,21 @@ const incrementAge = (value: string) => {
   user.value.age++;
 };
 
-const textValue = ref('defaultValue');
+const textValue = ref('');
+const errorMessage = ref('');
+
+const onInput = (e: Event) => {
+  const value = (e.target as HTMLInputElement).value;
+  errorMessage.value = '';
+  if (/[0-9]/g.test(value)) {
+    textValue.value = textValue.value.slice(0, -1);
+    errorMessage.value = 'Ввод цифр недопустим';
+  }
+  if (value.length > 10) {
+    textValue.value = textValue.value.slice(0, -1);
+    errorMessage.value = 'Количество символов не более 10';
+  }
+};
 
 // const user: IUser = reactive({
 //   name: 'Sergey',
@@ -99,15 +125,33 @@ const textValue = ref('defaultValue');
 // const onInput = (event: Event) => {
 //   textValue.value = (event.target as HTMLInputElement).value;
 // };
+
+console.log('created');
+
+onMounted(() => {
+  console.log('mounted');
+});
+
+onUpdated(() => {
+  console.log('updated');
+});
+
+watch(device, (val) => {
+  console.log(val);
+});
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'sass:color';
 .wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
   background-color: burlywood;
+}
+.user-wrapper {
+  background-color: aqua;
 }
 .main-section {
   flex-grow: 1;
@@ -117,13 +161,7 @@ const textValue = ref('defaultValue');
   color: black;
 }
 .button {
-  padding: 10px 5px;
-  border-radius: 5px;
-  border: none;
-  font-size: 16px;
-  background-color: blueviolet;
-  margin-right: 15px;
-  cursor: pointer;
+  background-color: green;
 }
 .images {
   padding: 20px;
@@ -181,6 +219,16 @@ form {
     border-radius: 5px;
     font-size: 16px;
     border: none;
+    background-color: gray;
+    transition: 0.3s;
+
+    &:hover {
+      background-color: color.adjust(gray, $lightness: -20%);
+    }
   }
+}
+
+.error {
+  color: red;
 }
 </style>

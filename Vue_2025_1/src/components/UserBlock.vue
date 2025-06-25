@@ -1,19 +1,25 @@
 <template>
-  <h2>User</h2>
-  <p>User name: {{ user.name }}</p>
-  <p>User age: {{ user.age }}</p>
-  <button class="button" @click="emits('increment-age', data)">Increment age+</button>
-  <button class="button" @click="emits('decrement-age')">Decrement age-</button>
+  <div :class="style['user-wrapper']">
+    <h2>User</h2>
+    <p>User name: {{ user.name }}</p>
+    <p>User age: {{ user.age }}</p>
+    <button class="green" :class="style.button" @click="emits('increment-age', data)">
+      Increment age+
+    </button>
+    <button :class="style.button" @click="emits('decrement-age')">Decrement age-</button>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { watch } from 'vue';
+import { useCssModule, watch } from 'vue';
 import type { IUserBlockEmits, IUserBlockProps } from './types';
 
 const props = defineProps<IUserBlockProps>();
 const emits = defineEmits<IUserBlockEmits>();
 
 const data = 'test data';
+
+const style = useCssModule();
 
 // watch(
 //   user,
@@ -32,7 +38,10 @@ watch(
 );
 </script>
 
-<style scoped>
+<style module>
+.user-wrapper {
+  display: block;
+}
 .button {
   padding: 10px 5px;
   border-radius: 5px;
