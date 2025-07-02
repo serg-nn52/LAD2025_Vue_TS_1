@@ -1,9 +1,11 @@
 <template>
-  <router-view />
+  <component :is="route.meta.layout || 'div'">
+    <router-view />
+  </component>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useRoute } from 'vue-router';
 
-export default defineComponent({});
+const route = useRoute();
 </script>

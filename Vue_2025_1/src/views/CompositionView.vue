@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <PageHeader title="Composition header" />
     <section class="main-section">
       <h2>Composition API</h2>
       <CompositionClickCounter title="Composition counter" />
@@ -59,13 +58,10 @@
       <h2 class="input-text">{{ textValue }}</h2>
       <button class="button">Test button</button>
     </section>
-    <PageFooter />
   </div>
 </template>
 
 <script setup lang="ts">
-import PageHeader from '@/components/PageHeader.vue';
-import PageFooter from '@/components/PageFooter.vue';
 import { computed, onMounted, onUpdated, ref, watch } from 'vue';
 import type { IUser } from './types';
 import CompositionClickCounter from '@/components/CompositionClickCounter.vue';

@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <PageHeader :title="text" />
     <section class="main-section">
       <h2>App</h2>
       <ClickCounter @increment-counter="onIncrement" />
@@ -13,20 +12,15 @@
         <div :style="messageStyle" class="message">{{ text }}</div>
       </div>
     </section>
-    <PageFooter />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import PageHeader from '@/components/PageHeader.vue';
-import PageFooter from '@/components/PageFooter.vue';
 import ClickCounter from '@/components/ClickCounter.vue';
 
 export default defineComponent({
   components: {
-    PageHeader,
-    PageFooter,
     ClickCounter,
   },
   data() {
